@@ -1,1 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Tema fullscreen: niente ActionBar, sfondo scuro come splash nativo -->
+    <style name="Theme.LagoDiComo" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/splash_bg</item>
+        <item name="android:statusBarColor">@color/splash_bg</item>
+        <item name="android:navigationBarColor">@color/splash_bg</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+    </style>
+</resources>
 
