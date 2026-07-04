@@ -1,1 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Pin di navigazione stilizzato sul lago -->
+    <path android:fillColor="#38BDF8"
+        android:pathData="M20,66 C32,60 44,72 54,66 C64,60 76,72 88,66 L88,80 C76,86 64,74 54,80 C44,86 32,74 20,80 Z"/>
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M54,22 C45,22 38,29 38,38 C38,50 54,64 54,64 C54,64 70,50 70,38 C70,29 63,22 54,22 Z M54,44 C50.7,44 48,41.3 48,38 C48,34.7 50.7,32 54,32 C57.3,32 60,34.7 60,38 C60,41.3 57.3,44 54,44 Z"/>
+</vector>
 
