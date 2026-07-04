@@ -1,3 +1,58 @@
+# Build automatica APK + AAB. Se aggiungi i GitHub Secrets del keystore,
+# l'AAB esce gia' FIRMATO e pronto per il Play Store.
+name: Build Android
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.7'
+
+      - name: Build APK debug (installabile subito)
+        run: gradle assembleDebug
+
+      - name: Build AAB release (firmato se il keystore e' presente)
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/keystore.jks"
+            export KEYSTORE_FILE="$RUNNER_TEMP/keystore.jks"
+            echo "Keystore trovato: build firmata."
+          else
+            echo "Nessun keystore: build NON firmata."
+          fi
+          gradle bundleRelease
+
+      - name: Carica APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Carica AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: app/build/outputs/bundle/release/app-release.aab
 # Build automatica APK + AAB senza installare nulla sul PC
 name: Build Android
 on:
